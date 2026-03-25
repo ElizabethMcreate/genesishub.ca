@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genesis Community & Health Support Centre</title>
+  <style>
+    :root {
+      --emerald-50: #ecfdf5;
+      --emerald-100: #d1fae5;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --teal-700: #0f766e;
+      --cyan-700: #0e7490;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.14);
+      --radius: 24px;
+      --max: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--slate-800);
+      background: var(--white);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    .container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+    .section { padding: 80px 0; }
+    .muted { color: var(--slate-600); }
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--emerald-700);
+      margin-bottom: 12px;
+    }
+    h1, h2, h3, h4, p { margin: 0; }
+    h1 { font-size: clamp(2.3rem, 5vw, 4.2rem); line-height: 1.1; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 3rem); line-height: 1.15; }
+    h3 { font-size: 1.35rem; line-height: 1.25; }
+    p + p { margin-top: 16px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--slate-200);
+    }
+    .topbar-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+    }
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--emerald-600), var(--teal-700), var(--cyan-700));
+      box-shadow: var(--shadow);
+    }
+    .brand-text small { display: block; color: var(--emerald-700); font-weight: 600; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+    .nav a { color: var(--slate-600); font-weight: 600; }
+    .nav a:hover { color: var(--emerald-700); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 18px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--emerald-700); color: white; box-shadow: var(--shadow); }
+    .btn-light { background: white; color: var(--emerald-700); box-shadow: var(--shadow); }
+    .btn-outline { border-color: rgba(255,255,255,0.3); color: white; background: rgba(255,255,255,0.08); }
+    .btn-ghost { border: 1px solid var(--slate-300); color: var(--slate-800); background: white; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--emerald-700), var(--teal-700), var(--cyan-700));
+      color: white;
+    }
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .hero::before { width: 240px; height: 240px; background: white; top: -40px; right: -40px; }
+    .hero::after { width: 180px; height: 180px; background: #a7f3d0; left: -30px; bottom: 20px; }
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+      align-items: center;
+      padding: 90px 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .hero p { font-size: 1.08rem; color: rgba(255,255,255,0.92); max-width: 700px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 24px; }
+
+    .card {
+      background: white;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .card-soft { background: var(--slate-50); }
+    .card-dark {
+      background: var(--slate-900);
+      color: white;
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-lg);
+    }
+    .card-gradient {
+      background: linear-gradient(135deg, var(--emerald-500), var(--cyan-700));
+      color: white;
+      box-shadow: var(--shadow-lg);
+    }
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: var(--shadow-lg);
+    }
+    .stat-value { font-size: 2rem; font-weight: 800; }
+    .list { display: grid; gap: 14px; margin-top: 22px; }
+    .list-item { display: flex; align-items: flex-start; gap: 10px; color: var(--slate-600); }
+    .check {
+      width: 22px; height: 22px; border-radius: 999px;
+      display: inline-grid; place-items: center;
+      background: var(--emerald-100); color: var(--emerald-700); font-weight: 800; flex: 0 0 auto;
+      margin-top: 2px;
+    }
+
+    .section-alt { background: var(--slate-50); }
+    .split { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 32px; align-items: start; }
+    .events-list, .stack { display: grid; gap: 18px; }
+    .event-card { display: flex; gap: 18px; align-items: flex-start; }
+    .date-box {
+      flex: 0 0 82px;
+      background: var(--emerald-50);
+      color: var(--emerald-700);
+      border-radius: 20px;
+      text-align: center;
+      padding: 16px 10px;
+      font-weight: 800;
+    }
+    .date-box strong { display: block; font-size: 1.9rem; color: var(--slate-900); line-height: 1; margin-top: 4px; }
+
+    .cta-band {
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--emerald-700), var(--teal-700), var(--cyan-700));
+      color: white;
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+    }
+    .cta-row { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+
+    .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 28px; }
+    .contact-list { display: grid; gap: 14px; margin-top: 26px; }
+    .contact-list div { display: flex; gap: 10px; align-items: center; color: var(--slate-600); }
+
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .input, textarea {
+      width: 100%;
+      border: 1px solid var(--slate-200);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--slate-800);
+      background: white;
+    }
+    textarea { min-height: 140px; resize: vertical; }
+
+    .footer {
+      border-top: 1px solid var(--slate-200);
+      padding: 26px 0 18px;
+      color: var(--slate-500);
+      font-size: 14px;
+    }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 26px; padding: 26px 0; }
+    .small-links { display: grid; gap: 10px; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .split, .contact-grid, .cta-row, .footer-grid, .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .topbar-inner { flex-wrap: wrap; padding: 14px 0; }
+      .nav { width: 100%; justify-content: flex-start; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .section { padding: 64px 0; }
+      .hero-grid { padding: 72px 0; }
+      .brand-text div { font-size: 15px; }
+      .nav { gap: 12px 16px; font-size: 14px; }
+      .card, .card-dark, .card-gradient { padding: 22px; }
+      .cta-band { padding: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#home" class="brand">
+        <div class="brand-mark">❤</div>
+        <div class="brand-text">
+          <div>Genesis Community &amp; Health Support Centre</div>
+          <small>Supporting healthier, stronger communities</small>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#events">Events</a>
+        <a href="#volunteer">Volunteer</a>
+        <a href="#donate">Donate</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#donate" class="btn btn-primary">Support Our Mission</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge">Community Care • Wellness • Inclusion</div>
+          <h1>Building hope, wellbeing, and belonging in every community we serve.</h1>
+          <p style="margin-top:20px;">
+            Genesis Community &amp; Health Support Centre delivers compassionate, practical, and culturally responsive support that empowers individuals, strengthens families, and uplifts communities.
+          </p>
+          <div class="hero-actions">
+            <a href="#volunteer" class="btn btn-light">Volunteer With Us</a>
+            <a href="#contact" class="btn btn-outline">Contact Us</a>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="stat-card"><div class="stat-value">500+</div><div>Community members supported</div></div>
+          <div class="stat-card"><div class="stat-value">50+</div><div>Volunteers and partners engaged</div></div>
+          <div class="stat-card"><div class="stat-value">12</div><div>Months of year-round community support</div></div>
+          <div class="stat-card"><div class="stat-value">100%</div><div>Commitment to dignity and inclusion</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container split">
+        <div>
+          <div class="eyebrow">About Us</div>
+          <h2>A trusted hub for community support and health-focused empowerment.</h2>
+          <p class="muted" style="margin-top:24px;">
+            We work alongside individuals, families, volunteers, and partners to respond to real community needs with empathy, accountability, and purpose. Our approach is rooted in dignity, inclusion, and practical support that helps people move from crisis toward stability and growth.
+          </p>
+          <p class="muted">
+            Through collaborative programs, outreach initiatives, and referral pathways, Genesis Community &amp; Health Support Centre creates meaningful opportunities for healthier lives, stronger families, and more connected communities.
+          </p>
+          <div style="margin-top:28px;">
+            <a href="#contact" class="btn btn-ghost">Learn More</a>
+          </div>
+        </div>
+        <div class="card card-soft">
+          <h3>What We Stand For</h3>
+          <div class="list">
+            <div class="list-item"><span class="check">✓</span><span>Inclusive, community-led support services</span></div>
+            <div class="list-item"><span class="check">✓</span><span>Culturally responsive programming</span></div>
+            <div class="list-item"><span class="check">✓</span><span>Partnership-driven outreach and referrals</span></div>
+            <div class="list-item"><span class="check">✓</span><span>Focus on dignity, wellness, and long-term impact</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="programs">
+      <div class="container">
+        <div style="max-width:760px; margin-bottom:36px;">
+          <div class="eyebrow">Our Programs</div>
+          <h2>Responsive services designed around community needs.</h2>
+          <p class="muted" style="margin-top:18px;">Our programming is built to meet people where they are, reduce barriers to support, and create pathways toward long-term wellness and resilience.</p>
+        </div>
+        <div class="grid-4">
+          <div class="card">
+            <div class="icon-box">🩺</div>
+            <h3>Community Wellness Support</h3>
+            <p class="muted" style="margin-top:14px;">Holistic support services designed to strengthen individual and family wellbeing through outreach, guidance, and referrals.</p>
+          </div>
+          <div class="card">
+            <div class="icon-box">🍽</div>
+            <h3>Food &amp; Basic Needs Assistance</h3>
+            <p class="muted" style="margin-top:14px;">Responsive support for individuals and families facing hardship through food hampers, essential supplies, and coordinated assistance.</p>
+          </div>
+          <div class="card">
+            <div class="icon-box">🎓</div>
+            <h3>Youth &amp; Family Empowerment</h3>
+            <p class="muted" style="margin-top:14px;">Programs that build resilience, life skills, and stronger connections for youth, parents, and caregivers.</p>
+          </div>
+          <div class="card">
+            <div class="icon-box">🤝</div>
+            <h3>Settlement &amp; Community Navigation</h3>
+            <p class="muted" style="margin-top:14px;">Practical help to connect community members with services, information, and trusted pathways to thrive.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="events">
+      <div class="container split">
+        <div>
+          <div class="eyebrow">Upcoming Events</div>
+          <h2>Join us in building stronger, healthier communities.</h2>
+          <p class="muted" style="margin-top:20px;">
+            Our events bring people together around health, support, learning, and service. Every gathering is an opportunity to connect, contribute, and strengthen community wellbeing.
+          </p>
+          <div style="margin-top:28px;">
+            <a href="#contact" class="btn btn-primary">Explore Events</a>
+          </div>
+        </div>
+        <div class="events-list">
+          <div class="card event-card">
+            <div class="date-box">APR<strong>12</strong></div>
+            <div>
+              <h3>Spring Community Wellness Fair</h3>
+              <p class="muted" style="margin-top:6px;">10:00 AM – 2:00 PM • Edmonton Community Hub</p>
+              <p class="muted" style="margin-top:10px;">Health education, screenings, community resources, and family-friendly activities.</p>
+            </div>
+          </div>
+          <div class="card event-card">
+            <div class="date-box">MAY<strong>04</strong></div>
+            <div>
+              <h3>Volunteer Orientation Session</h3>
+              <p class="muted" style="margin-top:6px;">6:00 PM – 7:30 PM • Genesis Support Centre</p>
+              <p class="muted" style="margin-top:10px;">Learn how to get involved and support programs through meaningful volunteer service.</p>
+            </div>
+          </div>
+          <div class="card event-card">
+            <div class="date-box">JUN<strong>18</strong></div>
+            <div>
+              <h3>Family Support &amp; Resource Day</h3>
+              <p class="muted" style="margin-top:6px;">11:00 AM – 3:00 PM • North Edmonton</p>
+              <p class="muted" style="margin-top:10px;">A practical resource event connecting families to services, referrals, and support.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="volunteer" style="background: var(--slate-900); color: white;">
+      <div class="container grid-3">
+        <div class="card" style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: white;">
+          <div class="icon-box" style="background: rgba(255,255,255,0.12); color: #a7f3d0;">👥</div>
+          <h3>Volunteer</h3>
+          <p style="color: rgba(255,255,255,0.8); margin-top:14px;">Share your time, skills, and compassion to support meaningful community programs and outreach activities.</p>
+          <div style="margin-top:18px;"><a href="#contact" style="color:#a7f3d0; font-weight:700;">Join our volunteer network →</a></div>
+        </div>
+        <div class="card" style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: white;">
+          <div class="icon-box" style="background: rgba(255,255,255,0.12); color: #a7f3d0;">🤲</div>
+          <h3>Partner</h3>
+          <p style="color: rgba(255,255,255,0.8); margin-top:14px;">Collaborate with us to expand services, deepen impact, and respond more effectively to emerging community needs.</p>
+          <div style="margin-top:18px;"><a href="#contact" style="color:#a7f3d0; font-weight:700;">Explore partnership opportunities →</a></div>
+        </div>
+        <div class="card-gradient">
+          <div class="icon-box" style="background: rgba(255,255,255,0.14); color:white;">❤</div>
+          <h3>Support Our Mission</h3>
+          <p style="margin-top:14px; color: rgba(255,255,255,0.92);">Donations and sponsorships help us extend practical support and build stronger, more resilient communities.</p>
+          <div style="margin-top:18px;"><a href="#donate" class="btn btn-light">Donate Now</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-3">
+        <div class="card">
+          <p class="muted" style="font-size:1.05rem;">“Genesis creates a welcoming space where people feel seen, supported, and connected to the help they need.”</p>
+          <div style="margin-top:20px;"><strong>Community Member</strong><br><span class="muted">Program Participant</span></div>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:1.05rem;">“The centre’s work reflects compassion in action, combining practical support with dignity and respect.”</p>
+          <div style="margin-top:20px;"><strong>Local Partner</strong><br><span class="muted">Community Stakeholder</span></div>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:1.05rem;">“Volunteering here has shown me how powerful community care can be when people come together with purpose.”</p>
+          <div style="margin-top:20px;"><strong>Volunteer</strong><br><span class="muted">Outreach Support</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="donate">
+      <div class="container split">
+        <div>
+          <div class="eyebrow">Donate</div>
+          <h2>Support practical care that reaches people where they are.</h2>
+          <p class="muted" style="margin-top:20px;">
+            Every contribution helps extend support to individuals and families facing barriers. Your generosity strengthens programs, expands outreach, and helps us respond with dignity, care, and consistency.
+          </p>
+          <div class="list" style="margin-top:26px;">
+            <div class="list-item"><span class="check">❤</span><span>Emergency food and basic necessities</span></div>
+            <div class="list-item"><span class="check">❤</span><span>Community wellness programming</span></div>
+            <div class="list-item"><span class="check">❤</span><span>Youth and family support initiatives</span></div>
+            <div class="list-item"><span class="check">❤</span><span>Settlement and referral services</span></div>
+            <div class="list-item"><span class="check">❤</span><span>Volunteer training and outreach coordination</span></div>
+            <div class="list-item"><span class="check">❤</span><span>Operational support for community impact delivery</span></div>
+          </div>
+        </div>
+        <div class="card-dark">
+          <h3>Give Today</h3>
+          <p style="margin-top:14px; color: rgba(255,255,255,0.75);">Choose an amount or connect with us about sponsorship, in-kind support, or partnership giving.</p>
+          <div class="grid-2" style="margin-top:22px;">
+            <button class="btn" style="background: rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.1);">$25</button>
+            <button class="btn" style="background: rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.1);">$50</button>
+            <button class="btn" style="background: rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.1);">$100</button>
+            <button class="btn" style="background: rgba(255,255,255,0.06); color:white; border:1px solid rgba(255,255,255,0.1);">$250</button>
+          </div>
+          <input class="input" placeholder="Custom amount" style="margin-top:16px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color:white;" />
+          <a href="#" class="btn" style="margin-top:16px; width:100%; background: var(--emerald-500); color:white;">Proceed to Donate</a>
+          <div style="margin-top:16px; padding:14px 16px; border:1px solid rgba(255,255,255,0.1); border-radius:18px; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.78); font-size:14px;">
+            <strong style="display:block; color:white; margin-bottom:6px;">Secure donation integration ready</strong>
+            Replace the donation button link with your live Stripe, PayPal, or CanadaHelps URL.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="contact">
+      <div class="container">
+        <div class="cta-band">
+          <div class="cta-row">
+            <div>
+              <div class="eyebrow" style="color:#d1fae5; margin-bottom:10px;">Ready to connect?</div>
+              <h2 style="color:white;">Partner with Genesis to strengthen community wellbeing.</h2>
+              <p style="margin-top:14px; color: rgba(255,255,255,0.9); max-width: 760px;">
+                This simple version is ready for easy upload and deployment as a single file website.
+              </p>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <a href="mailto:genesiscenterservices@yahoo.com" class="btn btn-light">Email Us</a>
+              <a href="#donate" class="btn btn-outline">Donate</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-grid" style="margin-top:32px;">
+          <div class="card">
+            <div class="eyebrow">Contact Us</div>
+            <h2>Let’s connect with purpose.</h2>
+            <p class="muted" style="margin-top:18px;">Whether you need support, want to volunteer, or would like to partner with us, we welcome your message.</p>
+            <div class="contact-list">
+              <div><strong>Email:</strong> <a href="mailto:genesiscenterservices@yahoo.com">genesiscenterservices@yahoo.com</a></div>
+              <div><strong>Phone:</strong> <a href="tel:18259938203">825-993-8203</a></div>
+              <div><strong>Location:</strong> Edmonton, Alberta</div>
+              <div><strong>Website:</strong> <a href="https://www.genesishub.ca" target="_blank">www.genesishub.ca</a></div>
+            </div>
+          </div>
+          <div class="card card-soft">
+            <h3>Contact Form</h3>
+            <form action="mailto:genesiscenterservices@yahoo.com" method="post" enctype="text/plain" style="margin-top:18px;">
+              <div class="form-grid">
+                <input class="input" name="first_name" placeholder="First name" />
+                <input class="input" name="last_name" placeholder="Last name" />
+              </div>
+              <input class="input" name="email" placeholder="Email address" style="margin-top:14px;" />
+              <input class="input" name="subject" placeholder="Subject" style="margin-top:14px;" />
+              <textarea name="message" placeholder="How can we help?" style="margin-top:14px;"></textarea>
+              <button type="submit" class="btn btn-primary" style="margin-top:14px;">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand" style="margin-bottom:12px;">
+          <div class="brand-mark">❤</div>
+          <div class="brand-text"><div>Genesis Community &amp; Health Support Centre</div></div>
+        </div>
+        <p>Strengthening wellbeing through community care, practical support, and inclusive partnerships.</p>
+      </div>
+      <div>
+        <strong style="color: var(--slate-900);">Quick Links</strong>
+        <div class="small-links" style="margin-top:12px;">
+          <a href="#about">About</a>
+          <a href="#programs">Programs</a>
+          <a href="#events">Events</a>
+          <a href="#volunteer">Volunteer</a>
+          <a href="#donate">Donate</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div>
+        <strong style="color: var(--slate-900);">Contact</strong>
+        <div class="small-links" style="margin-top:12px;">
+          <div>genesiscenterservices@yahoo.com</div>
+          <div>825-993-8203</div>
+          <div>Edmonton, Alberta</div>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="padding-top:18px; border-top:1px solid var(--slate-200); text-align:center;">© 2026 Genesis Community &amp; Health Support Centre. All rights reserved.</div>
+  </footer>
+</body>
+</html>
